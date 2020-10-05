@@ -1,7 +1,7 @@
-public class PlaneteGazeuse extends Planete {
 
-    PlaneteGazeuse(String nom) {
+public class PlaneteGazeuse extends Planete{
+
+    public PlaneteGazeuse(String nom) {
         super(nom);
     }
-
 }

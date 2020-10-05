@@ -1,8 +1,10 @@
+
 public abstract class Planete {
     String nom;
     int diametre;
-    String matiere;
+
     Atmosphere atmosphere;
+
     static String forme="Sphérique";
     static int nbPlanetesDecouvertes;
 
@@ -20,6 +22,7 @@ public abstract class Planete {
         System.out.println("Je suis la planète "+nom+" et je tourne sur moi-même de "+degres+" degrés.");
         return degres/360;
     }
+
 
 
     static String expansion (double milliardsDAnneesLumiere){

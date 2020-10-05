@@ -1,45 +1,62 @@
 public class VaisseauDeGuerre extends Vaisseau {
-    boolean armesDesactivees = false;
 
-    public VaisseauDeGuerre(String type) {
-        super(type);
-        switch(type.toLowerCase()) {
-            case "chasseur":
-                super.tonnageMax = 0;
-                break;
-            case "frégate":
-                super.tonnageMax = 50;
-                break;
-            case "croiseur":
-                super.tonnageMax = 100;
-                break;
+    boolean armesDesactivees;
+
+    public VaisseauDeGuerre(String type){
+        this.type=type;
+        if (type.equals("CHASSEUR")){
+            tonnageMax=0;
         }
+        else if (type.equals("FREGATE")){
+            tonnageMax=50;
+        }
+        else if (type.equals("CROISEUR")){
+            tonnageMax=100;
+        }
+
     }
 
-    void attaque(Vaisseau vaisseauCible, String armeUtilise, int dureeAttaque) {
-        if(this.armesDesactivees) {
+    void attaque(Vaisseau vaisseauCible, String arme, int duree) {
+        if (armesDesactivees) {
             System.out.println("Attaque impossible, l'armement est désactivé");
         } else {
-            System.out.println("Un vaisseau de type " + super.type + " attaque un vaisseau de type " + vaisseauCible.type
-                    + " en utilisant l'arme " + armeUtilise  + " pendant " + dureeAttaque  + " minutes.");
+            System.out.println("Un vaisseau de type " + type + " attaque un vaisseau de type " + vaisseauCible.type + " en utilisant l'arme " + arme + " pendant " + duree + " minutes.");
             vaisseauCible.resistanceDuBouclier = 0;
-            vaisseauCible.blindage /= 2;
+            vaisseauCible.blindage = vaisseauCible.blindage / 2;
         }
     }
 
     void desactiverArmes() {
-        this.armesDesactivees = true;
-        System.out.println("Désactivation des armes d'un vaisseau de type " + super.type);
+        System.out.println("Désactivation des armes d'un vaisseau de type " + type);
+        armesDesactivees = true;
     }
 
-    @Override
-    void activerBouclier() {
-        super.activerBouclier();
-        this.desactiverArmes();
+    void activerBouclier(){
+        System.out.println("Activation du bouclier d'un vaisseau de type "+type+".");
+        desactiverArmes();
     }
 
-    @Override
-    int emporterCargaison(int tonnage) {
-        return 0;
+    int emporterCargaison (int cargaison){
+        if (type.equals("CHASSEUR")){
+            return cargaison;
+        }
+        else {
+            if (nbPassagers<12){
+                return cargaison;
+            }
+            else {
+                int tonnagePassagers=nbPassagers*2;
+                int tonnageRestant=tonnageMax-tonnageActuel;
+                int tonnageAConsiderer=(tonnagePassagers<tonnageRestant ? tonnagePassagers : tonnageRestant);
+                if (cargaison>tonnageAConsiderer){
+                    tonnageActuel=tonnageMax;
+                    return cargaison-tonnageAConsiderer;
+                }
+                else {
+                    tonnageActuel+=cargaison;
+                    return 0;
+                }
+            }
+        }
     }
 }

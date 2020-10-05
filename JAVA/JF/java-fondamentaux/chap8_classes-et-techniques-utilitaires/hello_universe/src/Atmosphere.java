@@ -1,3 +1,4 @@
+
 public class Atmosphere {
     float tauxHelium;
     float tauxHydrogene;
