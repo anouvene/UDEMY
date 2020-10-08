@@ -2,15 +2,15 @@ public class VaisseauDeGuerre extends Vaisseau {
 
     boolean armesDesactivees;
 
-    public VaisseauDeGuerre(String type){
-        this.type=type;
-        if (type.equals("CHASSEUR")){
+    public VaisseauDeGuerre(TypeVaisseau type){
+        this.type = type;
+        if (type.equals(TypeVaisseau.CHASSEUR)){
             tonnageMax=0;
         }
-        else if (type.equals("FREGATE")){
+        else if (type.equals(TypeVaisseau.FREGATE)){
             tonnageMax=50;
         }
-        else if (type.equals("CROISEUR")){
+        else if (type.equals(TypeVaisseau.CROISEUR)){
             tonnageMax=100;
         }
 

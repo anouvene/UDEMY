@@ -1,10 +1,10 @@
 public class VaisseauCivil extends Vaisseau {
 
-    public VaisseauCivil(String type) {
+    public VaisseauCivil(TypeVaisseau type) {
         this.type = type;
-        if (type.equals("CARGO")) {
+        if (type.equals(TypeVaisseau.CARGO)) {
             tonnageMax = 500;
-        } else if (type.equals("VAISSEAU-MONDE")) {
+        } else if (type.equals(TypeVaisseau.VAISSEAUMONDE)) {
             tonnageMax = 2000;
         }
 
