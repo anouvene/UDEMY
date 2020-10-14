@@ -1,4 +1,6 @@
+
 public enum TypeVaisseau {
+
     CHASSEUR("Chasseur"),
     FREGATE("Frégate"),
     CROISEUR("Croiseur"),
@@ -7,7 +9,7 @@ public enum TypeVaisseau {
 
     public String nom;
 
-    private TypeVaisseau(String nom) {
+    TypeVaisseau(String nom) {
         this.nom = nom;
     }
 

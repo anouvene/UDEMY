@@ -1,26 +1,43 @@
 
 public class PlaneteTellurique extends Planete implements Habitable{
 
-    Vaisseau vaisseauAccoste;
+    Vaisseau[] vaisseauxAccostes;
     int totalVisiteurs;
 
-    public PlaneteTellurique(String nom) {
+    int tailleBaie;
+    int compteurVaisseau = 0;
+
+    public PlaneteTellurique(String nom, int tailleBaie) {
         super(nom);
+        this.tailleBaie = tailleBaie;
+        this.vaisseauxAccostes = new Vaisseau[tailleBaie];
     }
 
     public Vaisseau accueillirVaisseau(Vaisseau nouveauVaisseau){
+        compteurVaisseau++;
 
         if (nouveauVaisseau instanceof VaisseauDeGuerre){
             ((VaisseauDeGuerre)nouveauVaisseau).desactiverArmes();
         }
 
-        totalVisiteurs+=nouveauVaisseau.nbPassagers;
+        totalVisiteurs += nouveauVaisseau.nbPassagers;
 
-        Vaisseau vaisseauPrecedent=vaisseauAccoste;
-
-        vaisseauAccoste=nouveauVaisseau;
+        Vaisseau vaisseauPrecedent = vaisseauxAccostes[compteurVaisseau-1];
+        vaisseauxAccostes[compteurVaisseau-1] = nouveauVaisseau;
 
         return vaisseauPrecedent;
 
+    }
+
+    public boolean restePlaceDisponible() {
+        boolean flag = false;
+
+        for(Vaisseau v:vaisseauxAccostes) {
+            if(v == null) {
+                flag = true;
+            }
+        }
+
+        return flag;
     }
 }
