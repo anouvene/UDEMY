@@ -94,6 +94,7 @@ public class HelloUniverse {
 
             System.out.println("Quel tonnage souhaitez-vous emporter ?");
             int tonnageSouhaite = sc.nextInt();
+            sc.nextLine(); // saut de line avec du texte vide
 
             if(planeteSelectionnee.restePlaceDisponible()) {
                 planeteSelectionnee.accueillirVaisseau(vaisseauSelectionne);
@@ -103,8 +104,6 @@ public class HelloUniverse {
             }
 
             System.out.println("Voulez-vous recommencer oui/non?");
-            sc.nextLine();
-
             if(sc.nextLine().equalsIgnoreCase("non")) {
                 saisie = false;
             }
