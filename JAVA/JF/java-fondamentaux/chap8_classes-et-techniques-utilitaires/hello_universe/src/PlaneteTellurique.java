@@ -1,43 +1,37 @@
-
 public class PlaneteTellurique extends Planete implements Habitable{
 
     Vaisseau[] vaisseauxAccostes;
     int totalVisiteurs;
 
-    int tailleBaie;
-    int compteurVaisseau = 0;
-
-    public PlaneteTellurique(String nom, int tailleBaie) {
+    public PlaneteTellurique(String nom, int nbPlacesBaie) {
         super(nom);
-        this.tailleBaie = tailleBaie;
-        this.vaisseauxAccostes = new Vaisseau[tailleBaie];
+        vaisseauxAccostes=new Vaisseau[nbPlacesBaie];
     }
 
-    public Vaisseau accueillirVaisseau(Vaisseau nouveauVaisseau){
-        compteurVaisseau++;
-
-        if (nouveauVaisseau instanceof VaisseauDeGuerre){
-            ((VaisseauDeGuerre)nouveauVaisseau).desactiverArmes();
+    boolean restePlaceDisponible() {
+        for (int i=0 ; i<vaisseauxAccostes.length ; i++){
+            if (vaisseauxAccostes[i]==null){
+                return true;
+            }
         }
-
-        totalVisiteurs += nouveauVaisseau.nbPassagers;
-
-        Vaisseau vaisseauPrecedent = vaisseauxAccostes[compteurVaisseau-1];
-        vaisseauxAccostes[compteurVaisseau-1] = nouveauVaisseau;
-
-        return vaisseauPrecedent;
-
+        return false;
     }
 
-    public boolean restePlaceDisponible() {
-        boolean flag = false;
+    public void accueillirVaisseaux(Vaisseau... nouveauxVaisseaux){
 
-        for(Vaisseau v:vaisseauxAccostes) {
-            if(v == null) {
-                flag = true;
+        for(Vaisseau nouveauVaisseau: nouveauxVaisseaux) {
+            for (int i=0 ; i<vaisseauxAccostes.length ; i++) {
+                if (vaisseauxAccostes[i] == null) {
+                    vaisseauxAccostes[i] = nouveauVaisseau;
+                    break;
+                }
+            }
+
+            if (nouveauVaisseau instanceof VaisseauDeGuerre) {
+                ((VaisseauDeGuerre) nouveauVaisseau).desactiverArmes();
+                totalVisiteurs += nouveauVaisseau.nbPassagers;
             }
         }
 
-        return flag;
     }
 }
