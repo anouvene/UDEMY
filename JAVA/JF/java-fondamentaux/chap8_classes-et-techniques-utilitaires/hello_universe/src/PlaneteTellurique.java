@@ -1,17 +1,19 @@
 public class PlaneteTellurique extends Planete implements Habitable{
 
-    Vaisseau[] vaisseauxAccostes;
+    Vaisseau[][] vaisseauxAccostes;
     int totalVisiteurs;
 
     public PlaneteTellurique(String nom, int nbPlacesBaie) {
         super(nom);
-        vaisseauxAccostes=new Vaisseau[nbPlacesBaie];
+        vaisseauxAccostes = new Vaisseau[2][nbPlacesBaie];
     }
 
     boolean restePlaceDisponible() {
-        for (int i=0 ; i<vaisseauxAccostes.length ; i++){
-            if (vaisseauxAccostes[i]==null){
-                return true;
+        for (int i=0 ; i<vaisseauxAccostes.length ; i++) {
+            for (int j = 0; j < vaisseauxAccostes[i].length; j++) {
+                if (vaisseauxAccostes[i][j] == null) {
+                    return true;
+                }
             }
         }
         return false;
@@ -21,8 +23,9 @@ public class PlaneteTellurique extends Planete implements Habitable{
 
         for(Vaisseau nouveauVaisseau: nouveauxVaisseaux) {
             for (int i=0 ; i<vaisseauxAccostes.length ; i++) {
-                if (vaisseauxAccostes[i] == null) {
-                    vaisseauxAccostes[i] = nouveauVaisseau;
+                for (int j=0; j < vaisseauxAccostes[i].length; j++)
+                if (vaisseauxAccostes[i][j] == null) {
+                    vaisseauxAccostes[i][j] = nouveauVaisseau;
                     break;
                 }
             }

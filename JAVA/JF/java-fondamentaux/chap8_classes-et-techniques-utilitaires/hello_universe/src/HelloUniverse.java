@@ -119,9 +119,11 @@ public class HelloUniverse {
             int tonnageSouhaite = sc.nextInt();
 
             int compteurPlacesDisponibles = 0;
-            for(Vaisseau v:planeteSelectionnee.vaisseauxAccostes){
-                if(v != null) {
-                    compteurPlacesDisponibles++;
+            for(Vaisseau[] v1:planeteSelectionnee.vaisseauxAccostes) {
+                for(Vaisseau v2: v1) {
+                    if(v2 == null) {
+                        compteurPlacesDisponibles++;
+                    }
                 }
             }
 
