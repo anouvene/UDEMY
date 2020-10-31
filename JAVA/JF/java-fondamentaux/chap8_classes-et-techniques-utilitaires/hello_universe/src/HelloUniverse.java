@@ -21,55 +21,45 @@ public class HelloUniverse {
         PlaneteGazeuse neptune = new PlaneteGazeuse("Neptune");
         neptune.diametre = 49532;
 
-        Vaisseau chasseur1 = new VaisseauDeGuerre(TypeVaisseau.CHASSEUR);
-        chasseur1.nbPassagers = 3;
-        chasseur1.blindage = 156;
-        chasseur1.resistanceDuBouclier = 2;
-
-        Vaisseau chasseur2 = new VaisseauDeGuerre(TypeVaisseau.CHASSEUR);
-        chasseur2.nbPassagers = 1;
-        chasseur2.blindage = 80;
-        chasseur2.resistanceDuBouclier = 2;
-
-        Vaisseau chasseur3 = new VaisseauDeGuerre(TypeVaisseau.CHASSEUR);
-        chasseur3.nbPassagers = 2;
-        chasseur3.blindage = 100;
-        chasseur3.resistanceDuBouclier = 2;
-
-        Vaisseau[] chasseurs = {chasseur1, chasseur2, chasseur3};
+        Vaisseau chasseur = new VaisseauDeGuerre(TypeVaisseau.CHASSEUR);
+        chasseur.nbPassagers = 3;
+        chasseur.blindage = 156;
+        chasseur.resistanceDuBouclier = 2;
 
         Vaisseau croiseur = new VaisseauDeGuerre(TypeVaisseau.CROISEUR);
         croiseur.nbPassagers = 35;
         croiseur.blindage = 851;
         croiseur.resistanceDuBouclier = 25;
 
-        Vaisseau[] croiseurs = {croiseur};
-
         Vaisseau fregate = new VaisseauDeGuerre(TypeVaisseau.FREGATE);
         fregate.nbPassagers = 100;
         fregate.blindage = 542;
         fregate.resistanceDuBouclier = 50;
 
-        Vaisseau[] fregates = {fregate};
-
-        Vaisseau cargo1 = new VaisseauCivil(TypeVaisseau.CARGO);
-        cargo1.nbPassagers = 10000;
-        cargo1.blindage = 1520;
-        cargo1.resistanceDuBouclier = 20;
-
-        Vaisseau cargo2 = new VaisseauCivil(TypeVaisseau.CARGO);
-        cargo2.nbPassagers = 67;
-        cargo2.blindage = 509;
-        cargo2.resistanceDuBouclier = 57;
-
-        Vaisseau[] cargos = {cargo1, cargo2};
+        Vaisseau cargo = new VaisseauCivil(TypeVaisseau.CARGO);
+        cargo.nbPassagers = 10000;
+        cargo.blindage = 1520;
+        cargo.resistanceDuBouclier = 20;
 
         Vaisseau vaisseauMonde = new VaisseauCivil(TypeVaisseau.VAISSEAUMONDE);
         vaisseauMonde.nbPassagers = 10000;
         vaisseauMonde.blindage = 4784;
         vaisseauMonde.resistanceDuBouclier = 30;
 
-        Vaisseau[] vaisseauxMonde = {vaisseauMonde};
+        Vaisseau chasseur2 = new VaisseauDeGuerre(TypeVaisseau.CHASSEUR);
+        chasseur2.nbPassagers = 4;
+        chasseur2.blindage = 156;
+        chasseur2.resistanceDuBouclier = 2;
+        Vaisseau chasseur3 = new VaisseauDeGuerre(TypeVaisseau.CHASSEUR);
+        chasseur3.nbPassagers = 5;
+        chasseur3.blindage = 156;
+        chasseur3.resistanceDuBouclier = 2;
+        Vaisseau cargo2 = new VaisseauCivil(TypeVaisseau.CARGO);
+        cargo2.nbPassagers = 10001;
+        cargo2.blindage = 1520;
+        cargo2.resistanceDuBouclier = 20;
+
+        terre.accueillirVaisseaux(chasseur2,chasseur3,cargo2);
 
         Scanner sc = new Scanner(System.in);
         boolean recommencer = true;
@@ -77,23 +67,22 @@ public class HelloUniverse {
             System.out.println("Quel vaisseau souhaitez vous manipuler : " + TypeVaisseau.CHASSEUR.name() + ", " + TypeVaisseau.FREGATE.name() + ", " + TypeVaisseau.CROISEUR.name() + ", " + TypeVaisseau.CARGO.name() + " ou " + TypeVaisseau.VAISSEAUMONDE.name() + " ?");
             String typeVaisseauString = sc.nextLine();
             TypeVaisseau typeVaisseau = TypeVaisseau.valueOf(typeVaisseauString);
-            Vaisseau[] vaisseauxSelectionnes = {};
-
+            Vaisseau vaisseauSelectionne = null;
             switch (typeVaisseau) {
                 case CHASSEUR:
-                    vaisseauxSelectionnes = chasseurs;;
+                    vaisseauSelectionne = chasseur;
                     break;
                 case FREGATE:
-                    vaisseauxSelectionnes = fregates;
+                    vaisseauSelectionne = fregate;
                     break;
                 case CROISEUR:
-                    vaisseauxSelectionnes = croiseurs;
+                    vaisseauSelectionne = croiseur;
                     break;
                 case CARGO:
-                    vaisseauxSelectionnes = cargos;
+                    vaisseauSelectionne = cargo;
                     break;
                 case VAISSEAUMONDE:
-                    vaisseauxSelectionnes = vaisseauxMonde;
+                    vaisseauSelectionne = vaisseauMonde;
                     break;
             }
 
@@ -113,25 +102,15 @@ public class HelloUniverse {
                 case "Mars":
                     planeteSelectionnee = mars;
                     break;
+
             }
 
             System.out.println("Quel tonnage souhaitez-vous emporter ?");
             int tonnageSouhaite = sc.nextInt();
 
-            int compteurPlacesDisponibles = 0;
-            for(Vaisseau[] v1:planeteSelectionnee.vaisseauxAccostes) {
-                for(Vaisseau v2: v1) {
-                    if(v2 == null) {
-                        compteurPlacesDisponibles++;
-                    }
-                }
-            }
-
-            if (planeteSelectionnee.restePlaceDisponible() && compteurPlacesDisponibles >= vaisseauxSelectionnes.length) {
-                planeteSelectionnee.accueillirVaisseaux(vaisseauxSelectionnes);
-                for(Vaisseau vaisseauSelectionne:vaisseauxSelectionnes) {
-                    System.out.println("Le vaisseau a rejeté : " + vaisseauSelectionne.emporterCargaison(tonnageSouhaite) + " tonnes.");
-                }
+            if (planeteSelectionnee.restePlaceDisponible(vaisseauSelectionne.type)) {
+                planeteSelectionnee.accueillirVaisseaux(vaisseauSelectionne);
+                System.out.println("Le vaisseau a rejeté : " + vaisseauSelectionne.emporterCargaison(tonnageSouhaite) + " tonnes.");
             } else {
                 System.out.println("Le vaisseau ne peut pas se poser sur la planète par manque de place dans la baie.");
             }
