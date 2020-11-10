@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class HelloUniverse {
@@ -6,20 +8,41 @@ public class HelloUniverse {
 
         PlaneteTellurique mercure = new PlaneteTellurique("Mercure", 1);
         mercure.diametre = 4880;
+
         PlaneteTellurique venus = new PlaneteTellurique("Venus", 2);
         venus.diametre = 12100;
+
         PlaneteTellurique terre = new PlaneteTellurique("Terre", 100);
         terre.diametre = 12756;
+
         PlaneteTellurique mars = new PlaneteTellurique("Mars", 5);
         mars.diametre = 6792;
+
         PlaneteGazeuse jupiter = new PlaneteGazeuse("Jupiter");
         jupiter.diametre = 142984;
+
         PlaneteGazeuse saturne = new PlaneteGazeuse("Saturne");
         saturne.diametre = 120536;
+
         PlaneteGazeuse uranus = new PlaneteGazeuse("Uranus");
         uranus.diametre = 51118;
+
         PlaneteGazeuse neptune = new PlaneteGazeuse("Neptune");
         neptune.diametre = 49532;
+
+        List<Planete> planetes = new ArrayList();
+        planetes.add(mercure);
+        planetes.add(venus);
+        planetes.add(terre);
+        planetes.add(mars);
+
+        planetes.add(jupiter);
+        planetes.add(saturne);
+        planetes.add(uranus);
+        planetes.add(neptune);
+
+        Galaxie galaxie = new Galaxie();
+        galaxie.planetes = planetes;
 
         Vaisseau chasseur = new VaisseauDeGuerre(TypeVaisseau.CHASSEUR);
         chasseur.nbPassagers = 3;
@@ -58,11 +81,11 @@ public class HelloUniverse {
         cargo2.nbPassagers = 10001;
         cargo2.blindage = 1520;
         cargo2.resistanceDuBouclier = 20;
-
         terre.accueillirVaisseaux(chasseur2,chasseur3,cargo2);
 
         Scanner sc = new Scanner(System.in);
         boolean recommencer = true;
+
         while (recommencer) {
             System.out.println("Quel vaisseau souhaitez vous manipuler : " + TypeVaisseau.CHASSEUR.name() + ", " + TypeVaisseau.FREGATE.name() + ", " + TypeVaisseau.CROISEUR.name() + ", " + TypeVaisseau.CARGO.name() + " ou " + TypeVaisseau.VAISSEAUMONDE.name() + " ?");
             String typeVaisseauString = sc.nextLine();
@@ -86,24 +109,17 @@ public class HelloUniverse {
                     break;
             }
 
-            System.out.println("Sur quelle planète tellurique du systeme solaire voulez-vous vous poser : Mercure, Venus, Terre ou Mars ?");
-            String nomPlanete = sc.nextLine();
-            PlaneteTellurique planeteSelectionnee = null;
-            switch (nomPlanete) {
-                case "Mercure":
-                    planeteSelectionnee = mercure;
-                    break;
-                case "Venus":
-                    planeteSelectionnee = venus;
-                    break;
-                case "Terre":
-                    planeteSelectionnee = terre;
-                    break;
-                case "Mars":
-                    planeteSelectionnee = mars;
-                    break;
+            System.out.println("Choisir une planète dans la galaxie du plus proche au plus éloignée du système solaire pour votre vaisseau : " +
+                    "0:Mercure, 1:Venus, 2:Terre, 3:Mars, 4:Jupiter, 5:Saturne, 6:Uranus, 7:Neptune ?");
 
+            int numPlanete = sc.nextInt();
+            if(galaxie.planetes.get(numPlanete) instanceof PlaneteGazeuse) {
+                System.out.println("la planète choisie n'est pas une planète tellurique, veuiller recommencer");
+                sc.nextLine();
+                continue;
             }
+
+            PlaneteTellurique planeteSelectionnee = (PlaneteTellurique)galaxie.planetes.get(numPlanete);
 
             System.out.println("Quel tonnage souhaitez-vous emporter ?");
             int tonnageSouhaite = sc.nextInt();
@@ -121,6 +137,7 @@ public class HelloUniverse {
             recommencer = sc.nextLine().equals("oui");
 
         }
+
     }
 
 }
