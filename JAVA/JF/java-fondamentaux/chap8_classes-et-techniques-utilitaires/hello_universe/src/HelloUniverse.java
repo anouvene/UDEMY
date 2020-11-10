@@ -1,6 +1,8 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.Set;
+import java.util.HashSet;
+
 
 public class HelloUniverse {
 
@@ -30,7 +32,7 @@ public class HelloUniverse {
         PlaneteGazeuse neptune = new PlaneteGazeuse("Neptune");
         neptune.diametre = 49532;
 
-        List<Planete> planetes = new ArrayList();
+        Set<Planete> planetes = new HashSet();
         planetes.add(mercure);
         planetes.add(venus);
         planetes.add(terre);
@@ -43,6 +45,11 @@ public class HelloUniverse {
 
         Galaxie galaxie = new Galaxie();
         galaxie.planetes = planetes;
+
+        // Les planetes
+        for (Planete p:galaxie.planetes) {
+            System.out.println(p.nom);
+        }
 
         Vaisseau chasseur = new VaisseauDeGuerre(TypeVaisseau.CHASSEUR);
         chasseur.nbPassagers = 3;
@@ -109,17 +116,26 @@ public class HelloUniverse {
                     break;
             }
 
-            System.out.println("Choisir une planète dans la galaxie du plus proche au plus éloignée du système solaire pour votre vaisseau : " +
-                    "0:Mercure, 1:Venus, 2:Terre, 3:Mars, 4:Jupiter, 5:Saturne, 6:Uranus, 7:Neptune ?");
+            System.out.println("Choisir une planète tellurique dans la galaxie du plus proche au plus éloignée du système solaire pour votre vaisseau : " +
+                    "Mercure, Venus, Terre, Mars, Jupiter, Saturne, Uranus, Neptune ?");
 
-            int numPlanete = sc.nextInt();
-            if(galaxie.planetes.get(numPlanete) instanceof PlaneteGazeuse) {
+            String nomPlanete = sc.nextLine();
+            Planete planete = null;
+            Iterator<Planete> iter = galaxie.planetes.iterator();
+            while (iter.hasNext()) {
+                Planete p = iter.next();
+                if(p.nom.equalsIgnoreCase(nomPlanete)) {
+                    planete = p;
+                    break;
+                }
+            }
+
+            if(planete == null || planete instanceof PlaneteGazeuse) {
                 System.out.println("la planète choisie n'est pas une planète tellurique, veuiller recommencer");
-                sc.nextLine();
                 continue;
             }
 
-            PlaneteTellurique planeteSelectionnee = (PlaneteTellurique)galaxie.planetes.get(numPlanete);
+            PlaneteTellurique planeteSelectionnee = (PlaneteTellurique)planete;
 
             System.out.println("Quel tonnage souhaitez-vous emporter ?");
             int tonnageSouhaite = sc.nextInt();
